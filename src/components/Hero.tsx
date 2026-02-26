@@ -1,38 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Play, ArrowRight } from "lucide-react";
+import globe from "@/assets/globe.png";
 
 const Hero = () => {
   return (
     <section className="relative bg-primary min-h-screen overflow-hidden flex items-center">
-      {/* Globe background */}
-      <div className="absolute inset-0 flex items-center justify-end pointer-events-none">
-        <svg
-          viewBox="0 0 800 800"
-          className="w-[700px] h-[700px] lg:w-[900px] lg:h-[900px] -mr-20 lg:-mr-10 opacity-[0.12]"
-          fill="none"
-        >
-          {/* Globe circle */}
-          <circle cx="400" cy="400" r="350" stroke="hsl(210, 60%, 70%)" strokeWidth="1.5" />
-          {/* Latitude lines */}
-          <ellipse cx="400" cy="400" rx="350" ry="120" stroke="hsl(210, 60%, 70%)" strokeWidth="1" />
-          <ellipse cx="400" cy="400" rx="350" ry="220" stroke="hsl(210, 60%, 70%)" strokeWidth="1" />
-          <ellipse cx="400" cy="400" rx="350" ry="310" stroke="hsl(210, 60%, 70%)" strokeWidth="0.8" />
-          {/* Longitude lines */}
-          <ellipse cx="400" cy="400" rx="120" ry="350" stroke="hsl(210, 60%, 70%)" strokeWidth="1" />
-          <ellipse cx="400" cy="400" rx="220" ry="350" stroke="hsl(210, 60%, 70%)" strokeWidth="1" />
-          <ellipse cx="400" cy="400" rx="310" ry="350" stroke="hsl(210, 60%, 70%)" strokeWidth="0.8" />
-          {/* Continents - simplified shapes */}
-          {/* Africa */}
-          <path d="M420 250 C430 260, 450 280, 445 320 C440 360, 430 400, 420 430 C410 450, 400 460, 395 440 C390 420, 385 380, 390 340 C395 300, 410 260, 420 250Z" fill="hsl(210, 50%, 55%)" opacity="0.4" />
-          {/* Europe */}
-          <path d="M380 200 C400 195, 420 200, 430 210 C440 220, 435 240, 420 250 C410 255, 390 250, 380 240 C370 230, 370 210, 380 200Z" fill="hsl(210, 50%, 55%)" opacity="0.4" />
-          {/* South America */}
-          <path d="M280 350 C290 340, 310 330, 320 350 C330 370, 325 420, 310 460 C300 480, 285 490, 275 470 C265 450, 270 380, 280 350Z" fill="hsl(210, 50%, 55%)" opacity="0.3" />
-          {/* North America */}
-          <path d="M200 200 C230 180, 280 170, 310 190 C340 210, 340 250, 320 280 C300 300, 260 310, 240 290 C220 270, 190 230, 200 200Z" fill="hsl(210, 50%, 55%)" opacity="0.3" />
-          {/* Asia */}
-          <path d="M460 200 C500 190, 550 200, 580 230 C600 250, 590 290, 560 310 C530 330, 490 320, 470 290 C450 260, 440 220, 460 200Z" fill="hsl(210, 50%, 55%)" opacity="0.3" />
-        </svg>
+      {/* Globe image */}
+      <div className="absolute right-[-5%] top-1/2 -translate-y-1/2 pointer-events-none">
+        <img
+          src={globe}
+          alt=""
+          className="w-[500px] md:w-[650px] lg:w-[800px] xl:w-[900px] opacity-[0.15] object-contain"
+        />
       </div>
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10 pt-32 pb-20">
