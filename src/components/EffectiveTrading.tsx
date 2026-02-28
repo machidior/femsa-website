@@ -9,10 +9,11 @@ const EffectiveTrading = () => {
   return (
     <section className="py-20 bg-background relative overflow-hidden">
       {/* Decorative orange curves */}
-      <div className="absolute top-0 right-0 w-96 h-96 opacity-10">
-        <svg viewBox="0 0 400 400" fill="none">
-          <circle cx="300" cy="100" r="200" stroke="hsl(24, 100%, 50%)" strokeWidth="2" />
-          <circle cx="320" cy="80" r="150" stroke="hsl(24, 100%, 50%)" strokeWidth="1.5" />
+      <div className="absolute top-[-100px] right-[-100px] w-[500px] h-[500px] opacity-30 pointer-events-none">
+        <svg viewBox="0 0 500 500" fill="none">
+          <circle cx="250" cy="250" r="220" stroke="hsl(24, 100%, 50%)" strokeWidth="3" />
+          <circle cx="250" cy="250" r="170" stroke="hsl(24, 100%, 50%)" strokeWidth="2.5" />
+          <circle cx="250" cy="250" r="120" stroke="hsl(24, 100%, 50%)" strokeWidth="2" />
         </svg>
       </div>
 
