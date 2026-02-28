@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import aboutWoman from "@/assets/about-woman.png";
+import heroPeople from "@/assets/hero-people.png";
 
 const tabs = ["Our Mission", "Our Vision", "Our Values"];
 
@@ -51,35 +52,46 @@ const About = () => {
           </div>
 
           {/* Right - Content */}
-          <div className="space-y-5 text-muted-foreground text-sm leading-relaxed">
-            <p>
-              FEMSA Group is a dynamic and diversified corporation committed to delivering
-              innovative solutions for clients, building value for stakeholders, businesses, and
-              communities. Built on a foundation of integrity, collaboration, and trust, FEMSA
-              Group specializes in sustainable growth across diverse sectors, creating meaningful
-              opportunities for partners and clients. From its roots as a visionary enterprise to its
-              position as a trusted market leader.
-            </p>
-            <p>
-              At FEMSA Group, we understand the importance of building a solid infrastructure to make
-              clients' goals, aspirations, innovations, and reality. Whether in consulting services or
-              investing, FEMSA Group's diverse and rich product and service innovation models are
-              creating pathways for success. We are not just a business; we are a partner you can trust,
-              building relationships based on transparency, trust, and shared prosperity.
-            </p>
-            <p>
-              With a clear commitment to its impact, FEMSA Group invites you to join us in bringing
-              confidence in partnership, lasting impact, and real change. Dive deeper into our vision to
-              create opportunities, capitalize on trends, set standards, and deliver results that surpass
-              expectations. In each initiative, our people's innovative approach and solutions serve
-              clients, and stakeholders can depend on to navigate challenges and unlock
-              opportunities.
-            </p>
-            <p>
-              Our work stands for a building force for shaping a future where individuals and
-              organizations alike thrive. From global market ventures, institution building, FEMSA
-              Group isn't just leading this story of innovation, empowerment, and excellence.
-            </p>
+          <div className="space-y-5">
+            <div className="text-muted-foreground text-sm leading-relaxed space-y-5">
+              <p>
+                FEMSA Group is a dynamic and diversified corporation committed to delivering
+                innovative solutions for clients, building value for stakeholders, businesses, and
+                communities. Built on a foundation of integrity, collaboration, and trust, FEMSA
+                Group specializes in sustainable growth across diverse sectors, creating meaningful
+                opportunities for partners and clients. From its roots as a visionary enterprise to its
+                position as a trusted market leader.
+              </p>
+              <p>
+                At FEMSA Group, we understand the importance of building a solid infrastructure to make
+                clients' goals, aspirations, innovations, and reality. Whether in consulting services or
+                investing, FEMSA Group's diverse and rich product and service innovation models are
+                creating pathways for success. We are not just a business; we are a partner you can trust,
+                building relationships based on transparency, trust, and shared prosperity.
+              </p>
+              <p>
+                With a clear commitment to its impact, FEMSA Group invites you to join us in bringing
+                confidence in partnership, lasting impact, and real change. Dive deeper into our vision to
+                create opportunities, capitalize on trends, set standards, and deliver results that surpass
+                expectations. In each initiative, our people's innovative approach and solutions serve
+                clients, and stakeholders can depend on to navigate challenges and unlock
+                opportunities.
+              </p>
+              <p>
+                Our work stands for a building force for shaping a future where individuals and
+                organizations alike thrive. From global market ventures, institution building, FEMSA
+                Group isn't just leading this story of innovation, empowerment, and excellence.
+              </p>
+            </div>
+
+            {/* People image at bottom right */}
+            <div className="pt-4 flex justify-end">
+              <img
+                src={heroPeople}
+                alt="FEMSA team"
+                className="max-w-xs rounded-lg shadow-xl object-contain"
+              />
+            </div>
           </div>
         </div>
       </div>
