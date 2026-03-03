@@ -18,7 +18,7 @@ const Hero = () => {
       <div className="container mx-auto px-4 lg:px-8 relative z-10 pt-32 pb-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-[1.1] italic">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-[1.1]">
               Stronger Together.
               <br />
               Always Moving
