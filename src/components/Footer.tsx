@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import femsaGroupLogo from "../../resourses/femsa group (png)-10_1 1.png";
 import { 
   Linkedin, 
   Twitter, 
@@ -181,7 +182,13 @@ const Footer: React.FC = () => {
       {/* Main Footer */}
       <footer className="footer" ref={footerRef}>
         {/* Watermark */}
-        <div className="footer__watermark">FEMSA GROUP</div>
+        <div className="footer__watermark">
+          <img 
+            src={femsaGroupLogo} 
+            alt="FEMSA Group" 
+            className="w-24 h-24 object-contain opacity-5"
+          />
+        </div>
         
         <div className="footer__container">
           {/* Newsletter Mini-Bar */}
@@ -558,13 +565,11 @@ const Footer: React.FC = () => {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          font-family: 'Plus Jakarta Sans', sans-serif;
-          font-size: 180px;
-          font-weight: 900;
-          color: rgba(255, 255, 255, 0.015);
+          display: flex;
+          align-items: center;
+          justify-content: center;
           user-select: none;
           pointer-events: none;
-          white-space: nowrap;
           z-index: 0;
         }
 
