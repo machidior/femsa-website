@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Search, ArrowRight, Globe, Phone, Mail, ChevronDown, Menu, X, Building2, Package, Users, Award, FileText, ChevronRight as ChevronRightIcon } from "lucide-react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import femsaLogo from "../assets/femsa-logo.png";
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const navItems: NavItem[] = [
+  const navItems: NavItem[] = useMemo(() => [
     { 
       label: "Home", 
       href: "/" 
@@ -126,36 +126,43 @@ const Header: React.FC = () => {
       label: "Contact", 
       href: "/contact" 
     }
-  ];
+  ], []);
+
+  // Helper function to determine the correct active section
+  const getActiveSection = useCallback(() => {
+    // On homepage, always show 'Home' as active
+    if (location.pathname === '/') {
+      return '/';
+    }
+    
+    // Check if current path matches any dropdown item
+    for (const navItem of navItems) {
+      if (navItem.dropdownItems) {
+        const matchingDropdownItem = navItem.dropdownItems.find(
+          dropdownItem => dropdownItem.href === location.pathname
+        );
+        if (matchingDropdownItem) {
+          return navItem.href; // Return parent nav item href
+        }
+      }
+    }
+    
+    // Check if current path matches any main nav item
+    const matchingNavItem = navItems.find(item => item.href === location.pathname);
+    if (matchingNavItem) {
+      return location.pathname;
+    }
+    
+    // Default to current path
+    return location.pathname;
+  }, [location.pathname, navItems]);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
       
-      // Track active section for homepage
-      if (location.pathname === '/') {
-        const sections = ['#home', '#services', '#about', '#contact'];
-        const scrollPosition = window.scrollY + 100;
-
-        // Check if at top of homepage
-        if (scrollPosition < 100) {
-          setActiveSection('/');
-        } else {
-          for (const section of sections) {
-            const element = document.querySelector(section) as HTMLElement;
-            if (element) {
-              const { offsetTop, offsetHeight } = element;
-              if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-                setActiveSection(section);
-                break;
-              }
-            }
-          }
-        }
-      } else {
-        // On other pages, highlight current page
-        setActiveSection(location.pathname);
-      }
+      // Update active section based on current location
+      setActiveSection(getActiveSection());
     };
 
     const observer = new IntersectionObserver(
@@ -178,6 +185,7 @@ const Header: React.FC = () => {
 
     // Set initial active section
     handleScroll();
+    setActiveSection(getActiveSection());
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -185,7 +193,7 @@ const Header: React.FC = () => {
         observer.unobserve(currentRef);
       }
     };
-  }, [location.pathname]);
+  }, [location.pathname, getActiveSection]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -270,7 +278,7 @@ const Header: React.FC = () => {
   const handleDropdownLeave = () => {
     dropdownTimeoutRef.current = setTimeout(() => {
       setActiveDropdown(null);
-    }, 300);
+    }, 150);
   };
 
   return (
@@ -342,60 +350,29 @@ const Header: React.FC = () => {
                     )}
                   </a>
 
-                  {/* Premium Dropdown Menu */}
+                  {/* Dropdown Menu */}
                   {item.hasDropdown && activeDropdown === item.label && (
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 w-96 bg-white rounded-2xl shadow-2xl border border-blue-100 overflow-hidden z-50">
-                      {/* Dropdown Header */}
-                      <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
-                        <h4 className="text-white font-semibold text-lg">{item.label}</h4>
-                        <p className="text-blue-100 text-sm mt-1">Explore our {item.label.toLowerCase()}</p>
-                      </div>
-                      
-                      {/* Dropdown Content */}
-                      <div className="p-4 space-y-2">
-                        {item.dropdownItems?.map((dropdownItem, dropdownIndex) => (
+                    <div className="absolute top-full left-0 mt-3 w-64 bg-white rounded-xl shadow-xl border border-gray-100 z-50 animate-dropdown-slide">
+                      <div className="py-2">
+                        {item.dropdownItems?.map((dropdownItem, index) => (
                           <a
                             key={dropdownItem.label}
                             href={dropdownItem.href}
-                            className="group flex items-center gap-4 p-4 rounded-xl hover:bg-blue-50 transition-all duration-200 border border-transparent hover:border-blue-200"
+                            className="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 border-b border-gray-50 last:border-b-0"
                             onClick={(e) => {
                               e.preventDefault();
                               scrollToSection(dropdownItem.href);
                             }}
                           >
-                            {/* Icon Container */}
-                            <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white group-hover:from-orange-500 group-hover:to-orange-600 transition-all duration-300 group-hover:scale-110">
-                              {dropdownItem.icon}
-                            </div>
-                            
-                            {/* Content */}
-                            <div className="flex-1 min-w-0">
-                              <div className="text-gray-900 font-semibold text-sm group-hover:text-blue-600 transition-colors duration-200">
-                                {dropdownItem.label}
-                              </div>
+                            <div className="flex-1">
+                              <div className="font-medium">{dropdownItem.label}</div>
                               {dropdownItem.description && (
-                                <div className="text-gray-500 text-xs mt-1 leading-relaxed">
-                                  {dropdownItem.description}
-                                </div>
+                                <div className="text-xs text-gray-500 mt-0.5">{dropdownItem.description}</div>
                               )}
                             </div>
-                            
-                            {/* Arrow */}
-                            <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center group-hover:bg-orange-100 transition-colors duration-200">
-                              <ChevronRightIcon className="w-4 h-4 text-gray-400 group-hover:text-orange-500 transition-colors duration-200" />
-                            </div>
+                            <ChevronRightIcon className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors duration-200" />
                           </a>
                         ))}
-                      </div>
-                      
-                      {/* Dropdown Footer */}
-                      <div className="bg-gray-50 px-6 py-3 border-t border-gray-100">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs text-gray-500">Need help?</span>
-                          <a href="#contact" className="text-xs text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200">
-                            Contact Support →
-                          </a>
-                        </div>
                       </div>
                     </div>
                   )}

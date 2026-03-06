@@ -112,6 +112,10 @@ export default {
           "0%, 100%": { boxShadow: "0 0 20px rgba(245, 158, 11, 0.2)" },
           "50%": { boxShadow: "0 0 40px rgba(245, 158, 11, 0.4)" },
         },
+        "dropdown-slide": {
+          "0%": { opacity: "0", transform: "translateY(-10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -119,6 +123,7 @@ export default {
         "fade-in-up": "fade-in-up 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
         "stagger-in": "stagger-in 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
         "amber-glow": "amber-glow 3s ease-in-out infinite",
+        "dropdown-slide": "dropdown-slide 0.2s ease-out",
       },
       spacing: {
         'femsa-1': 'var(--femsa-space-1)',
