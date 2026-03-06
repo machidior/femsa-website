@@ -1,26 +1,156 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
-    <title>Lovable App</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
-
-    <!-- TODO: Update og:title to match your application name -->
-    <meta property="og:title" content="Lovable App" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
-
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <!-- Basic Meta -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#032177">
+  <meta name="color-scheme" content="light">
+  
+  <!-- Preconnect for Performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIAAoBggA">
+  
+  <!-- SEO Meta Tags -->
+  <title>FEMSA Group Limited | Strategic Business Solutions and Global Trading</title>
+  <meta name="title" content="FEMSA Group Limited | Strategic Business Solutions and Global Trading">
+  <meta name="description" content="FEMSA Group Limited empowers businesses with innovative solutions, strategic guidance, and resources — driving sustainable growth, trust, and long-term success across Africa and beyond.">
+  <meta name="keywords" content="business solutions, global trading, strategic consulting, financial advisory, supply chain management, market expansion, risk management, FEMSA Group, Africa, enterprise solutions">
+  <meta name="author" content="FEMSA Group Limited">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="revisit-after" content="7 days">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://femsagroup.com/">
+  <meta property="og:title" content="FEMSA Group Limited | Strategic Business Solutions and Global Trading">
+  <meta property="og:description" content="FEMSA Group Limited empowers businesses with innovative solutions, strategic guidance, and resources — driving sustainable growth, trust, and long-term success across Africa and beyond.">
+  <meta property="og:image" content="https://femsagroup.com/og-image-1200x630.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:site_name" content="FEMSA Group">
+  <meta property="og:locale" content="en_US">
+  
+  <!-- Twitter Card -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://femsagroup.com/">
+  <meta property="twitter:title" content="FEMSA Group Limited | Strategic Business Solutions and Global Trading">
+  <meta property="twitter:description" content="FEMSA Group Limited empowers businesses with innovative solutions, strategic guidance, and resources — driving sustainable growth, trust, and long-term success across Africa and beyond.">
+  <meta property="twitter:image" content="https://femsagroup.com/og-image-1200x630.jpg">
+  <meta property="twitter:creator" content="@femsagroup">
+  <meta property="twitter:site" content="@femsagroup">
+  
+  <!-- Additional Meta Tags -->
+  <meta name="application-name" content="FEMSA Group">
+  <meta name="apple-mobile-web-app-title" content="FEMSA Group">
+  <meta name="msapplication-TileColor" content="#032177">
+  <meta name="msapplication-config" content="/browserconfig.xml">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://femsagroup.com/">
+  
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "FEMSA Group Limited",
+    "description": "FEMSA Group Limited is a premier African business solutions company that empowers businesses with innovative solutions, strategic guidance, and resources, driving sustainable growth, trust, and long-term success.",
+    "url": "https://femsagroup.com/",
+    "logo": "https://femsagroup.com/logo.png",
+    "foundingDate": "2018",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "123 Business Avenue",
+      "addressLocality": "Nairobi",
+      "addressRegion": "Nairobi County",
+      "postalCode": "00100",
+      "addressCountry": "Kenya"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+254-700-123-456",
+      "contactType": "customer service",
+      "email": "contact@femsagroup.com",
+      "areaServed": "Worldwide",
+      "availableLanguage": ["English"]
+    },
+    "sameAs": [
+      "https://www.linkedin.com/company/femsagroup",
+      "https://twitter.com/femsagroup",
+      "https://www.instagram.com/femsagroup",
+      "https://www.facebook.com/femsagroup"
+    ],
+    "services": [
+      {
+        "@type": "Service",
+        "name": "Professional Global Trading",
+        "description": "Strategic international trade solutions with comprehensive logistics and compliance management"
+      },
+      {
+        "@type": "Service",
+        "name": "Strategic Business Consulting",
+        "description": "Expert guidance to optimize operations, drive growth, and enhance competitive advantage"
+      },
+      {
+        "@type": "Service",
+        "name": "Financial Advisory Services",
+        "description": "Tailored financial strategies for sustainable growth and risk mitigation"
+      },
+      {
+        "@type": "Service",
+        "name": "Supply Chain Management",
+        "description": "End-to-end supply chain optimization with cutting-edge technology and logistics"
+      },
+      {
+        "@type": "Service",
+        "name": "Market Expansion Solutions",
+        "description": "Comprehensive market entry strategies and expansion planning for global reach"
+      },
+      {
+        "@type": "Service",
+        "name": "Risk Management and Compliance",
+        "description": "Robust risk assessment and compliance frameworks to protect your business"
+      }
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "150"
+    },
+    "award": [
+      "Excellence in Business Innovation 2024",
+      "Global Partnership Recognition 2023"
+    ]
+  }
+  </script>
+  
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="/src/styles/design-system.css">
+  
+  <!-- Lenis Smooth Scroll (CDN) -->
+  <script src="https://unpkg.com/lenis@1.0.27/dist/lenis.min.js"></script>
+  
+  <!-- GSAP for Advanced Animations (Optional) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <!-- Global Utilities -->
+  <script type="module" src="/src/js/global-utilities.js"></script>
+  
+  <!-- Main Application -->
+  <script type="module" src="/src/main.tsx"></script>
+</body>
 </html>

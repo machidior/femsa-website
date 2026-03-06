@@ -1,79 +1,611 @@
-import { Button } from "@/components/ui/button";
-import { Search, ArrowRight } from "lucide-react";
-import { useState } from "react";
-import femsaLogo from "@/assets/femsa-logo.png";
+import React, { useState, useEffect, useRef } from 'react';
+import { Search, ArrowRight, Globe, Phone, Mail, ChevronDown, Menu, X, Building2, Package, Users, Award, FileText, ChevronRight as ChevronRightIcon } from "lucide-react";
+import { useNavigate, useLocation } from 'react-router-dom';
+import femsaLogo from "../assets/femsa-logo.png";
 
-const Header = () => {
+interface NavItem {
+  label: string;
+  href: string;
+  hasDropdown?: boolean;
+  dropdownItems?: { label: string; href: string; icon?: React.ReactNode; description?: string }[];
+}
+
+const Header: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('');
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const headerRef = useRef<HTMLDivElement>(null);
+  const searchTimeoutRef = useRef<NodeJS.Timeout>();
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout>();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const navItems = [
-    { label: "Home", active: true },
-    { label: "Services", active: false },
-    { label: "About Us", active: false },
-    { label: "Contacts", active: false },
+  const navItems: NavItem[] = [
+    { 
+      label: "Home", 
+      href: "/" 
+    },
+    { 
+      label: "Trading Services", 
+      href: "#services",
+      hasDropdown: true,
+      dropdownItems: [
+        { 
+          label: "Raw Materials & Packaging", 
+          href: "/raw-materials-packaging",
+          icon: <Package className="w-4 h-4" />,
+          description: "PET, HDPE, PP, LDPE, preforms, caps, labels"
+        },
+        { 
+          label: "Equipment & Machinery", 
+          href: "/equipment-machinery",
+          icon: <Building2 className="w-4 h-4" />,
+          description: "Injection machines, filling lines, quality control"
+        },
+        { 
+          label: "Spare Parts & Components", 
+          href: "/spare-parts",
+          icon: <Globe className="w-4 h-4" />,
+          description: "Electrical, mechanical, pneumatic parts"
+        },
+        { 
+          label: "Consumables & Supplies", 
+          href: "/consumables",
+          icon: <Package className="w-4 h-4" />,
+          description: "Lubricants, chemicals, maintenance tools"
+        }
+      ]
+    },
+    { 
+      label: "About FEMSA", 
+      href: "#about",
+      hasDropdown: true,
+      dropdownItems: [
+        { 
+          label: "Our Story", 
+          href: "/our-story",
+          icon: <Award className="w-4 h-4" />,
+          description: "15+ years of trading excellence"
+        },
+        { 
+          label: "Leadership Team", 
+          href: "/leadership",
+          icon: <Users className="w-4 h-4" />,
+          description: "Meet our expert team"
+        },
+        { 
+          label: "Mission & Values", 
+          href: "/mission-values",
+          icon: <Award className="w-4 h-4" />,
+          description: "Our core principles"
+        },
+        { 
+          label: "Awards & Recognition", 
+          href: "/awards-recognition",
+          icon: <Award className="w-4 h-4" />,
+          description: "Industry recognition"
+        }
+      ]
+    },
+    { 
+      label: "Resources", 
+      href: "#resources",
+      hasDropdown: true,
+      dropdownItems: [
+        { 
+          label: "Trading Insights", 
+          href: "/insights",
+          icon: <FileText className="w-4 h-4" />,
+          description: "Industry trends and analysis"
+        },
+        { 
+          label: "Case Studies", 
+          href: "/case-studies",
+          icon: <FileText className="w-4 h-4" />,
+          description: "Success stories"
+        },
+        { 
+          label: "Product Catalog", 
+          href: "/catalog",
+          icon: <Package className="w-4 h-4" />,
+          description: "Browse our products"
+        },
+        { 
+          label: "Technical Specifications", 
+          href: "/specifications",
+          icon: <FileText className="w-4 h-4" />,
+          description: "Detailed product info"
+        }
+      ]
+    },
+    { 
+      label: "Contact", 
+      href: "/contact" 
+    }
   ];
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+      
+      // Track active section for homepage
+      if (location.pathname === '/') {
+        const sections = ['#home', '#services', '#about', '#contact'];
+        const scrollPosition = window.scrollY + 100;
+
+        // Check if at top of homepage
+        if (scrollPosition < 100) {
+          setActiveSection('/');
+        } else {
+          for (const section of sections) {
+            const element = document.querySelector(section) as HTMLElement;
+            if (element) {
+              const { offsetTop, offsetHeight } = element;
+              if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+                setActiveSection(section);
+                break;
+              }
+            }
+          }
+        }
+      } else {
+        // On other pages, highlight current page
+        setActiveSection(location.pathname);
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsLoaded(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    const currentRef = headerRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    // Set initial active section
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
+        setActiveDropdown(null);
+        setSearchOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setActiveDropdown(null);
+        setSearchOpen(false);
+        setMobileOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === '/' && !searchOpen && event.target instanceof HTMLElement && event.target.tagName !== 'INPUT') {
+        event.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [searchOpen]);
+
+  const scrollToSection = (sectionId: string) => {
+    if (sectionId.startsWith('/')) {
+      // Navigate to a different page
+      navigate(sectionId);
+    } else {
+      // Scroll to a section on the same page
+      const element = document.querySelector(sectionId) as HTMLElement;
+      if (element) {
+        const offset = 80;
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+    setActiveDropdown(null);
+    setSearchOpen(false);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    
+    // Clear existing timeout
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    
+    // Set new timeout for search
+    searchTimeoutRef.current = setTimeout(() => {
+      if (query.trim()) {
+        console.log('Searching for:', query);
+        // Implement search functionality here
+      }
+    }, 300);
+  };
+
+  const handleDropdownEnter = (label: string) => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setActiveDropdown(label);
+  };
+
+  const handleDropdownLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 300);
+  };
+
   return (
-    <header className="absolute top-0 left-0 right-0 z-50">
-      <div className="container mx-auto flex items-center justify-between py-6 px-4 lg:px-8">
-        <a href="/" className="flex items-center">
-          <img src={femsaLogo} alt="Femsa Group" className="h-8 md:h-10 w-auto" />
-        </a>
-
-        <nav className="hidden md:flex items-center gap-10">
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href="#"
-              className={`text-primary-foreground/90 hover:text-primary-foreground text-sm font-medium transition-colors pb-1 ${
-                item.active ? "border-b-2 border-secondary" : ""
-              }`}
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
-
-        <div className="hidden md:flex items-center gap-4">
-          <button className="w-10 h-10 rounded-full border border-primary-foreground/30 flex items-center justify-center text-primary-foreground hover:border-primary-foreground/60 transition-colors">
-            <Search className="w-4 h-4" />
-          </button>
-          <Button variant="navCta" size="default" className="rounded-lg px-6 gap-2">
-            Quick Access <ArrowRight className="w-4 h-4" />
-          </Button>
-        </div>
-
-        <button
-          className="md:hidden text-primary-foreground p-2"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          <div className="space-y-1.5">
-            <div className="w-6 h-0.5 bg-current" />
-            <div className="w-6 h-0.5 bg-current" />
-            <div className="w-6 h-0.5 bg-current" />
-          </div>
-        </button>
-      </div>
-
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="h-px bg-primary-foreground/15" />
-      </div>
-
-      {mobileOpen && (
-        <div className="md:hidden bg-primary/95 backdrop-blur-sm">
-          <nav className="flex flex-col p-4 gap-3">
-            {navItems.map((item) => (
-              <a key={item.label} href="#" className={`text-primary-foreground/90 text-sm font-medium py-2 ${item.active ? "text-secondary" : ""}`}>
-                {item.label}
+    <>
+      <header 
+        ref={headerRef}
+        className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-blue-900/95 backdrop-blur-md shadow-2xl border-b border-blue-700/50' 
+            : 'bg-blue-900/80 backdrop-blur-sm'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <div className={`flex items-center transition-all duration-700 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
+              <a 
+                href="#home" 
+                className="flex items-center gap-3 group"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection('#home');
+                }}
+              >
+                <div className="relative">
+                  <img 
+                    src={femsaLogo} 
+                    alt="FEMSA Global Trading Limited" 
+                    className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-500 to-orange-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                </div>
               </a>
-            ))}
-            <Button variant="navCta" size="sm" className="mt-2 w-fit gap-2">
-              Quick Access <ArrowRight className="w-4 h-4" />
-            </Button>
-          </nav>
+            </div>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center gap-8 relative">
+              {navItems.map((item, index) => (
+                <div 
+                  key={item.label}
+                  className="relative"
+                  onMouseEnter={() => item.hasDropdown && handleDropdownEnter(item.label)}
+                  onMouseLeave={handleDropdownLeave}
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <a
+                    href={item.href}
+                    className={`text-white/90 hover:text-white font-medium text-sm transition-all duration-300 pb-1 relative group ${
+                      (item.href === '/' && location.pathname === '/') || 
+                      (item.href !== '/' && activeSection === item.href) ? 'text-orange-500' : ''
+                    }`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(item.href);
+                    }}
+                  >
+                    <span className="relative z-10">{item.label}</span>
+                    {item.hasDropdown && (
+                      <ChevronDown className={`inline-block ml-1 w-3 h-3 transition-transform duration-300 ${
+                        activeDropdown === item.label ? 'rotate-180' : ''
+                      }`} />
+                    )}
+                    {/* Hover Background */}
+                    <div className="absolute inset-0 bg-orange-500/10 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded"></div>
+                    {/* Active Indicator */}
+                    {((item.href === '/' && location.pathname === '/') || 
+                      (item.href !== '/' && activeSection === item.href)) && (
+                      <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-orange-500 scale-x-100"></div>
+                    )}
+                  </a>
+
+                  {/* Premium Dropdown Menu */}
+                  {item.hasDropdown && activeDropdown === item.label && (
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 w-96 bg-white rounded-2xl shadow-2xl border border-blue-100 overflow-hidden z-50">
+                      {/* Dropdown Header */}
+                      <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+                        <h4 className="text-white font-semibold text-lg">{item.label}</h4>
+                        <p className="text-blue-100 text-sm mt-1">Explore our {item.label.toLowerCase()}</p>
+                      </div>
+                      
+                      {/* Dropdown Content */}
+                      <div className="p-4 space-y-2">
+                        {item.dropdownItems?.map((dropdownItem, dropdownIndex) => (
+                          <a
+                            key={dropdownItem.label}
+                            href={dropdownItem.href}
+                            className="group flex items-center gap-4 p-4 rounded-xl hover:bg-blue-50 transition-all duration-200 border border-transparent hover:border-blue-200"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              scrollToSection(dropdownItem.href);
+                            }}
+                          >
+                            {/* Icon Container */}
+                            <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white group-hover:from-orange-500 group-hover:to-orange-600 transition-all duration-300 group-hover:scale-110">
+                              {dropdownItem.icon}
+                            </div>
+                            
+                            {/* Content */}
+                            <div className="flex-1 min-w-0">
+                              <div className="text-gray-900 font-semibold text-sm group-hover:text-blue-600 transition-colors duration-200">
+                                {dropdownItem.label}
+                              </div>
+                              {dropdownItem.description && (
+                                <div className="text-gray-500 text-xs mt-1 leading-relaxed">
+                                  {dropdownItem.description}
+                                </div>
+                              )}
+                            </div>
+                            
+                            {/* Arrow */}
+                            <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center group-hover:bg-orange-100 transition-colors duration-200">
+                              <ChevronRightIcon className="w-4 h-4 text-gray-400 group-hover:text-orange-500 transition-colors duration-200" />
+                            </div>
+                          </a>
+                        ))}
+                      </div>
+                      
+                      {/* Dropdown Footer */}
+                      <div className="bg-gray-50 px-6 py-3 border-t border-gray-100">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-gray-500">Need help?</span>
+                          <a href="#contact" className="text-xs text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200">
+                            Contact Support →
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </nav>
+
+            {/* Right Side Actions */}
+            <div className={`hidden lg:flex items-center gap-4 transition-all duration-700 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}>
+              {/* Search */}
+              <div className="relative">
+                <button 
+                  className={`w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/80 hover:bg-white/20 hover:border-white/40 transition-all duration-300 group ${
+                    searchOpen ? 'bg-white/20 border-white/40' : ''
+                  }`}
+                  onClick={() => setSearchOpen(!searchOpen)}
+                >
+                  <Search className="w-4 h-4" />
+                </button>
+                
+                {/* Premium Search Dropdown */}
+                <div className={`absolute top-full right-0 mt-3 w-96 bg-white rounded-2xl shadow-2xl border border-blue-100 overflow-hidden transition-all duration-300 z-50 ${
+                  searchOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
+                }`}>
+                  {/* Search Header */}
+                  <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <Search className="w-5 h-5 text-white" />
+                      <h4 className="text-white font-semibold text-lg">Search</h4>
+                    </div>
+                    <p className="text-blue-100 text-sm mt-1">Find trading services, products, and insights</p>
+                  </div>
+                  
+                  {/* Search Content */}
+                  <div className="p-4">
+                    <div className="flex items-center gap-3 mb-4">
+                      <input
+                        type="text"
+                        placeholder="Search for anything..."
+                        value={searchQuery}
+                        onChange={(e) => handleSearch(e.target.value)}
+                        className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white transition-all duration-300"
+                        autoFocus
+                      />
+                      <button 
+                        onClick={() => setSearchOpen(false)}
+                        className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    </div>
+                    
+                    {/* Popular Searches */}
+                    <div className="border-t border-gray-100 pt-4">
+                      <div className="text-xs text-gray-500 font-medium mb-3">POPULAR SEARCHES</div>
+                      <div className="space-y-2">
+                        <button className="w-full text-left px-4 py-3 rounded-xl text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 flex items-center justify-between group">
+                          <span>Raw Materials & Packaging</span>
+                          <ChevronRightIcon className="w-4 h-4 text-gray-400 group-hover:text-blue-600" />
+                        </button>
+                        <button className="w-full text-left px-4 py-3 rounded-xl text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 flex items-center justify-between group">
+                          <span>Industrial Equipment</span>
+                          <ChevronRightIcon className="w-4 h-4 text-gray-400 group-hover:text-blue-600" />
+                        </button>
+                        <button className="w-full text-left px-4 py-3 rounded-xl text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 flex items-center justify-between group">
+                          <span>Trading Solutions</span>
+                          <ChevronRightIcon className="w-4 h-4 text-gray-400 group-hover:text-blue-600" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Contact */}
+              <div className="flex items-center gap-2">
+                <button className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/80 hover:bg-white/20 hover:border-white/40 transition-all duration-300 group">
+                  <Phone className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                </button>
+                <button className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/80 hover:bg-white/20 hover:border-white/40 transition-all duration-300 group">
+                  <Mail className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                </button>
+              </div>
+
+              {/* Primary CTA */}
+              <button 
+                onClick={() => scrollToSection('#contact')}
+                className="group relative px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-semibold text-sm hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-orange-500/25 flex items-center gap-2 min-h-[44px]"
+              >
+                <span>Get Started</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                <div className="absolute inset-0 rounded-xl bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+              </button>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className={`lg:hidden text-white p-3 rounded-xl hover:bg-white/10 transition-all duration-300 ${
+                isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
+              }`}
+              onClick={() => setMobileOpen(!mobileOpen)}
+            >
+              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
-      )}
-    </header>
+      </header>
+
+      {/* Mobile Navigation */}
+      <div className={`lg:hidden fixed inset-0 bg-slate-900/98 backdrop-blur-xl z-40 transition-all duration-300 ${
+        mobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+      }`}>
+        <div className="flex flex-col h-full">
+          {/* Mobile Header */}
+          <div className="flex items-center justify-between p-6 border-b border-slate-700/50">
+            <div className="flex items-center gap-3">
+              <img src={femsaLogo} alt="FEMSA Global Trading Limited" className="h-8 w-auto" />
+            </div>
+            <button
+              className="text-white p-2 rounded-xl hover:bg-white/10 transition-colors duration-300"
+              onClick={() => setMobileOpen(false)}
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Mobile Search */}
+          <div className="p-6 border-b border-slate-700/50">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search services..."
+                className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-600/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:bg-slate-800/70 transition-all duration-300"
+              />
+            </div>
+          </div>
+
+          {/* Mobile Navigation */}
+          <nav className="flex-1 overflow-y-auto p-6">
+            {navItems.map((item, index) => (
+              <div key={item.label} className="mb-6" style={{ animationDelay: `${index * 100}ms` }}>
+                <a
+                  href={item.href}
+                  className={`text-white/90 hover:text-white font-medium text-lg transition-colors duration-300 block mb-2 ${
+                    (item.href === '/' && location.pathname === '/') || 
+                    (item.href !== '/' && activeSection === item.href) ? 'text-orange-500' : ''
+                  }`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection(item.href);
+                    setMobileOpen(false);
+                  }}
+                >
+                  {item.label}
+                  {item.hasDropdown && (
+                    <ChevronDown className="inline-block ml-1 w-4 h-4" />
+                  )}
+                </a>
+
+                {/* Mobile Dropdown */}
+                {item.hasDropdown && item.dropdownItems && (
+                  <div className="ml-4 space-y-3">
+                    {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
+                      <a
+                        key={dropdownItem.label}
+                        href={dropdownItem.href}
+                        className="flex items-center gap-3 text-white/70 hover:text-white text-sm transition-colors duration-300 block p-3 rounded-lg hover:bg-white/5"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          scrollToSection(dropdownItem.href);
+                          setMobileOpen(false);
+                        }}
+                        style={{ animationDelay: `${dropdownIndex * 50}ms` }}
+                      >
+                        {dropdownItem.icon && (
+                          <div className="w-6 h-6 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400 text-xs">
+                            {dropdownItem.icon}
+                          </div>
+                        )}
+                        <div className="flex-1">
+                          <div>{dropdownItem.label}</div>
+                          {dropdownItem.description && (
+                            <div className="text-xs text-slate-500 mt-1">{dropdownItem.description}</div>
+                          )}
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </nav>
+
+          {/* Mobile CTA */}
+          <div className="p-6 border-t border-slate-700/50">
+            <button 
+              onClick={() => {
+                scrollToSection('#contact');
+                setMobileOpen(false);
+              }}
+              className="w-full px-6 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              <span>Get Started</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

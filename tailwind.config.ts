@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -14,7 +15,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Poppins", "sans-serif"],
+        display: ['Syne', 'sans-serif'],
+        body: ['DM Sans', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -70,6 +73,18 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        femsa: {
+          primary: "hsl(var(--femsa-primary-bg))",
+          secondary: "hsl(var(--femsa-secondary-bg))",
+          surface: "hsl(var(--femsa-surface))",
+          accent: "hsl(var(--femsa-accent-primary))",
+          "accent-secondary": "hsl(var(--femsa-accent-secondary))",
+          "text-primary": "hsl(var(--femsa-text-primary))",
+          "text-secondary": "hsl(var(--femsa-text-secondary))",
+          "text-muted": "hsl(var(--femsa-text-muted))",
+          "border-subtle": "hsl(var(--femsa-border-subtle))",
+          "border-accent": "hsl(var(--femsa-border-accent))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -85,12 +100,40 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "fade-in-up": {
+          "0%": { opacity: "0", transform: "translateY(30px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "stagger-in": {
+          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "amber-glow": {
+          "0%, 100%": { boxShadow: "0 0 20px rgba(245, 158, 11, 0.2)" },
+          "50%": { boxShadow: "0 0 40px rgba(245, 158, 11, 0.4)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in-up": "fade-in-up 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+        "stagger-in": "stagger-in 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+        "amber-glow": "amber-glow 3s ease-in-out infinite",
+      },
+      spacing: {
+        'femsa-1': 'var(--femsa-space-1)',
+        'femsa-2': 'var(--femsa-space-2)',
+        'femsa-3': 'var(--femsa-space-3)',
+        'femsa-4': 'var(--femsa-space-4)',
+        'femsa-6': 'var(--femsa-space-6)',
+        'femsa-8': 'var(--femsa-space-8)',
+        'femsa-12': 'var(--femsa-space-12)',
+        'femsa-16': 'var(--femsa-space-16)',
+        'femsa-24': 'var(--femsa-space-24)',
+        'femsa-32': 'var(--femsa-space-32)',
+        'femsa-40': 'var(--femsa-space-40)',
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindcssAnimate],
 } satisfies Config;

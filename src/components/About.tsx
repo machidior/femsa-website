@@ -8,84 +8,95 @@ const tabs = ["Our Mission", "Our Vision", "Our Values"];
 const About = () => {
   const [activeTab, setActiveTab] = useState(0);
 
+  const tabContent = {
+    0: {
+      title: "Our Mission",
+      content: "To empower businesses with innovative solutions, strategic guidance, and resources that drive sustainable growth, trust, and long-term success for our clients and partners."
+    },
+    1: {
+      title: "Our Vision", 
+      content: "To be the leading partner in business transformation, creating value through excellence, innovation, and unwavering commitment to our stakeholders' success."
+    },
+    2: {
+      title: "Our Values",
+      content: "Integrity, collaboration, trust, and innovation form the foundation of everything we do, guiding our decisions and actions in building lasting partnerships."
+    }
+  };
+
   return (
-    <section className="py-20 bg-muted">
+    <section className="py-20 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left */}
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-                We are
-                <br />
-                Femsa Group
-              </h2>
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Left - Images and Tabs */}
+          <div className="space-y-8">
+            <div className="relative">
+              <img
+                src={aboutWoman}
+                alt="FEMSA professional"
+                className="rounded-lg shadow-2xl w-full max-w-md mx-auto"
+              />
+              {/* Decorative element */}
+              <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-secondary/20 rounded-full blur-2xl"></div>
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="space-y-4">
               {tabs.map((tab, i) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(i)}
-                  className={`text-left text-sm font-medium py-2 px-4 rounded transition-colors ${
+                  className={`w-full text-left text-base font-semibold py-4 px-6 rounded-lg transition-all ${
                     activeTab === i
-                      ? "text-secondary border-l-4 border-secondary bg-secondary/5"
-                      : "text-muted-foreground hover:text-foreground border-l-4 border-transparent"
+                      ? "text-secondary-foreground bg-secondary shadow-lg"
+                      : "text-muted-foreground hover:text-foreground bg-muted/50 hover:bg-muted"
                   }`}
                 >
                   {tab}
                 </button>
               ))}
             </div>
-
-            <Button variant="cta" size="lg">
-              Read More
-            </Button>
-
-            <div className="pt-6">
-              <img
-                src={aboutWoman}
-                alt="FEMSA professional"
-                className="rounded-lg shadow-xl max-w-xs"
-              />
-            </div>
           </div>
 
           {/* Right - Content */}
-          <div className="space-y-5">
-            <div className="text-muted-foreground text-sm leading-relaxed space-y-5">
-              <p>
-                FEMSA Group is a dynamic and diversified corporation committed to delivering
-                innovative solutions for clients, building value for stakeholders, businesses, and
-                communities. Built on a foundation of integrity, collaboration, and trust, FEMSA
-                Group specializes in sustainable growth across diverse sectors, creating meaningful
-                opportunities for partners and clients. From its roots as a visionary enterprise to its
-                position as a trusted market leader.
-              </p>
-              <p>
-                At FEMSA Group, we understand the importance of building a solid infrastructure to make
-                clients' goals, aspirations, innovations, and reality. Whether in consulting services or
-                investing, FEMSA Group's diverse and rich product and service innovation models are
-                creating pathways for success. We are not just a business; we are a partner you can trust,
-                building relationships based on transparency, trust, and shared prosperity.
-              </p>
-              <p>
-                With a clear commitment to its impact, FEMSA Group invites you to join us in bringing
-                confidence in partnership, lasting impact, and real change. Dive deeper into our vision to
-                create opportunities, capitalize on trends, set standards, and deliver results that surpass
-                expectations. In each initiative, our people's innovative approach and solutions serve
-                clients, and stakeholders can depend on to navigate challenges and unlock
-                opportunities.
-              </p>
-              <p>
-                Our work stands for a building force for shaping a future where individuals and
-                organizations alike thrive. From global market ventures, institution building, FEMSA
-                Group isn't just leading this story of innovation, empowerment, and excellence.
-              </p>
+          <div className="space-y-8">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground leading-tight mb-6">
+                We are
+                <br />
+                <span className="text-secondary">Femsa Group</span>
+              </h2>
             </div>
 
-            {/* People image at bottom right */}
-            <div className="pt-4 flex justify-end">
+            <div className="space-y-6">
+              <div className="p-6 bg-muted/50 rounded-lg">
+                <h3 className="text-xl font-semibold text-secondary mb-4">
+                  {tabContent[activeTab].title}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {tabContent[activeTab].content}
+                </p>
+              </div>
+
+              <div className="text-muted-foreground leading-relaxed space-y-4">
+                <p>
+                  FEMSA Group is a dynamic and diversified corporation committed to delivering
+                  innovative solutions for clients, building value for stakeholders, businesses, and
+                  communities. Built on a foundation of integrity, collaboration, and trust, FEMSA
+                  Group specializes in sustainable growth across diverse sectors.
+                </p>
+                <p>
+                  We understand the importance of building solid infrastructure to make clients' goals,
+                  aspirations, and innovations a reality. Our diverse and rich product and service
+                  innovation models are creating pathways for success.
+                </p>
+              </div>
+
+              <Button variant="cta" size="lg" className="px-8 py-6 text-base">
+                Read More
+              </Button>
+            </div>
+
+            {/* Team image */}
+            <div className="flex justify-end">
               <img
                 src={heroPeople}
                 alt="FEMSA team"
