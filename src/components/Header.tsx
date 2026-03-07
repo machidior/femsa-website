@@ -475,7 +475,7 @@ const Header: React.FC = () => {
               }`}
               onClick={() => setMobileOpen(!mobileOpen)}
             >
-              {mobileOpen ? <X className="w-5 h-5 md:w-6 md:h-6" /> : <Menu className="w-5 h-5 md:w-6 md:h-6" />}
+              <Menu className="w-5 h-5 md:w-6 md:h-6" />
             </button>
           </div>
         </div>
@@ -513,74 +513,149 @@ const Header: React.FC = () => {
 
           {/* Mobile Navigation */}
           <nav className="flex-1 overflow-y-auto p-4 md:p-6">
-            {navItems.map((item, index) => (
-              <div key={item.label} className="mb-4 md:mb-6" style={{ animationDelay: `${index * 100}ms` }}>
-                <a
-                  href={item.href}
-                  className={`text-white/90 hover:text-white font-medium text-base md:text-lg transition-colors duration-300 block mb-3 p-3 rounded-xl hover:bg-white/10 ${
-                    (item.href === '/' && location.pathname === '/') || 
-                    (item.href !== '/' && activeSection === item.href) ? 'text-orange-500' : ''
-                  }`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(item.href);
-                    setMobileOpen(false);
-                  }}
-                >
-                  <div className="flex items-center justify-between">
-                    <span>{item.label}</span>
-                    {item.hasDropdown && (
-                      <ChevronDown className="w-4 h-4" />
-                    )}
-                  </div>
-                </a>
+            {/* Navigation Categories */}
+            <div className="space-y-6">
+              {/* Main Navigation */}
+              <div className="mb-6">
+                <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Main Menu</h3>
+                <div className="space-y-2">
+                  {navItems.filter(item => !item.hasDropdown).map((item, index) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      className={`flex items-center justify-between p-3 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300 ${
+                        (item.href === '/' && location.pathname === '/') || 
+                        (item.href !== '/' && activeSection === item.href) ? 'text-orange-500 bg-white/20' : ''
+                      }`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection(item.href);
+                        setMobileOpen(false);
+                      }}
+                      style={{ animationDelay: `${index * 50}ms` }}
+                    >
+                      <span className="font-medium">{item.label}</span>
+                      {((item.href === '/' && location.pathname === '/') || 
+                        (item.href !== '/' && activeSection === item.href)) && (
+                        <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                      )}
+                    </a>
+                  ))}
+                </div>
+              </div>
 
-                {/* Mobile Dropdown */}
-                {item.hasDropdown && item.dropdownItems && (
-                  <div className="ml-4 space-y-2 md:ml-6 md:space-y-3">
-                    {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
-                      <a
-                        key={dropdownItem.label}
-                        href={dropdownItem.href}
-                        className="flex items-center gap-3 text-white/70 hover:text-white text-sm md:text-base transition-colors duration-300 block p-3 rounded-lg hover:bg-white/5"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          scrollToSection(dropdownItem.href);
-                          setMobileOpen(false);
-                        }}
-                        style={{ animationDelay: `${dropdownIndex * 50}ms` }}
-                      >
-                        {dropdownItem.icon && (
-                          <div className="w-5 h-5 md:w-6 md:h-6 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400 text-xs">
-                            {dropdownItem.icon}
-                          </div>
-                        )}
+              {/* Trading Services Dropdown */}
+              <div className="mb-6">
+                <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Trading Services</h3>
+                <div className="space-y-2">
+                  {navItems.find(item => item.label === "Trading Services")?.dropdownItems?.map((dropdownItem, index) => (
+                    <a
+                      key={dropdownItem.label}
+                      href={dropdownItem.href}
+                      className="flex items-center justify-between p-3 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection(dropdownItem.href);
+                        setMobileOpen(false);
+                      }}
+                      style={{ animationDelay: `${index * 50}ms` }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-400">
+                          {dropdownItem.icon}
+                        </div>
                         <div className="flex-1">
-                          <div className="font-medium text-sm md:text-base">{dropdownItem.label}</div>
+                          <div className="font-medium text-sm">{dropdownItem.label}</div>
                           {dropdownItem.description && (
                             <div className="text-xs text-slate-500 mt-1">{dropdownItem.description}</div>
                           )}
                         </div>
-                      </a>
-                    ))}
-                  </div>
-                )}
+                      </div>
+                    </a>
+                  ))}
+                </div>
               </div>
-            ))}
 
-          {/* Mobile CTA */}
-          <div className="p-4 md:p-6 border-t border-slate-700/50">
-            <button 
-              onClick={() => {
-                scrollToSection('#contact');
-                setMobileOpen(false);
-              }}
-              className="w-full px-4 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-semibold text-sm md:text-base hover:from-orange-600 hover:to-orange-700 transition-all duration-300 flex items-center justify-center gap-2"
-            >
-              <span>Get Started</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
+              {/* About FEMSA Dropdown */}
+              <div className="mb-6">
+                <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">About FEMSA</h3>
+                <div className="space-y-2">
+                  {navItems.find(item => item.label === "About FEMSA")?.dropdownItems?.map((dropdownItem, index) => (
+                    <a
+                      key={dropdownItem.label}
+                      href={dropdownItem.href}
+                      className="flex items-center justify-between p-3 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection(dropdownItem.href);
+                        setMobileOpen(false);
+                      }}
+                      style={{ animationDelay: `${index * 50}ms` }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                          {dropdownItem.icon}
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-medium text-sm">{dropdownItem.label}</div>
+                          {dropdownItem.description && (
+                            <div className="text-xs text-slate-500 mt-1">{dropdownItem.description}</div>
+                          )}
+                        </div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Resources Dropdown */}
+              <div>
+                <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Resources</h3>
+                <div className="space-y-2">
+                  {navItems.find(item => item.label === "Resources")?.dropdownItems?.map((dropdownItem, index) => (
+                    <a
+                      key={dropdownItem.label}
+                      href={dropdownItem.href}
+                      className="flex items-center justify-between p-3 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection(dropdownItem.href);
+                        setMobileOpen(false);
+                      }}
+                      style={{ animationDelay: `${index * 50}ms` }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400">
+                          {dropdownItem.icon}
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-medium text-sm">{dropdownItem.label}</div>
+                          {dropdownItem.description && (
+                            <div className="text-xs text-slate-500 mt-1">{dropdownItem.description}</div>
+                          )}
+                        </div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Contact Link */}
+              <div className="pt-6 border-t border-slate-700/50">
+                <a
+                  href="#contact"
+                  className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300"
+                  onClick={() => {
+                    scrollToSection('#contact');
+                    setMobileOpen(false);
+                  }}
+                >
+                  <span>Contact Us</span>
+                  <ChevronRightIcon className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </nav>
         </div>
       </div>
     </>
