@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import femsaGroupLogo from "../../resourses/femsa group (png)-10_1 1.png";
+import femsaLogo from "../assets/femsa-logo.png";
 import { 
   Linkedin, 
   Twitter, 
@@ -184,9 +184,9 @@ const Footer: React.FC = () => {
         {/* Watermark */}
         <div className="footer__watermark">
           <img 
-            src={femsaGroupLogo} 
+            src={femsaLogo} 
             alt="FEMSA Group" 
-            className="w-24 h-24 object-contain opacity-5"
+            className="w-96 h-96 md:w-[32rem] md:h-[32rem] object-contain opacity-5"
           />
         </div>
         

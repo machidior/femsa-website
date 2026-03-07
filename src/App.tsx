@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import CookieConsent from './components/CookieConsent';
+import GoogleAnalytics from './components/GoogleAnalytics';
 import Hero from './components/Hero';
 import ServicesSection from './components/ServicesSection';
 import AboutSection from './components/AboutSection';
@@ -17,6 +19,8 @@ import Leadership from './pages/Leadership';
 import MissionValues from './pages/MissionValues';
 import AwardsRecognition from './pages/AwardsRecognition';
 import Contact from './pages/Contact';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
 import PageLoader from './components/PageLoader';
 import { initializeEnhancements } from './utils/enhancements';
 import './styles/global-enhancements.css';
@@ -125,6 +129,7 @@ const App = () => {
 
   return (
     <Router>
+      <GoogleAnalytics />
       <PageLoader />
       <Header />
       <Routes>
@@ -138,8 +143,11 @@ const App = () => {
         <Route path="/mission-values" element={<MissionValues />} />
         <Route path="/awards-recognition" element={<AwardsRecognition />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
       </Routes>
       <Footer />
+      <CookieConsent />
     </Router>
   );
 };

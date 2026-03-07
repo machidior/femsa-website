@@ -1,3 +1,6 @@
+# Robots.txt for FEMSA Group Limited
+# https://femsagroup.com
+
 User-agent: Googlebot
 Allow: /
 
@@ -12,3 +15,19 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+# Sitemap
+Sitemap: https://femsagroup.com/sitemap.xml
+
+# Block common non-content paths
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /*.json$
+Disallow: /*.xml$
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
