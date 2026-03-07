@@ -229,6 +229,11 @@ const Header: React.FC = () => {
     };
   }, [searchOpen]);
 
+  // Debug mobileOpen state changes
+  useEffect(() => {
+    console.log('Mobile menu state changed:', mobileOpen);
+  }, [mobileOpen]);
+
   const scrollToSection = (sectionId: string) => {
     if (sectionId.startsWith('/')) {
       // Navigate to a different page
@@ -468,23 +473,125 @@ const Header: React.FC = () => {
               </button>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              className={`md:hidden lg:hidden text-white p-2 md:p-3 rounded-lg hover:bg-white/10 transition-all duration-300 ${
-                isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
-              }`}
-              onClick={() => setMobileOpen(!mobileOpen)}
-            >
-              <Menu className="w-5 h-5 md:w-6 md:h-6" />
-            </button>
+            {/* Mobile Quick Actions */}
+            <div className="flex items-center gap-2 md:hidden">
+              {/* Mobile Search Button */}
+              <button
+                className="text-white p-2.5 rounded-lg hover:bg-white/10 transition-all duration-300 transform hover:scale-105 active:scale-95"
+                onClick={() => setSearchOpen(!searchOpen)}
+                aria-label="Search"
+                type="button"
+              >
+                <Search className="w-5 h-5" />
+              </button>
+              
+              {/* Mobile Contact Button */}
+              <button
+                className="text-white p-2.5 rounded-lg hover:bg-white/10 transition-all duration-300 transform hover:scale-105 active:scale-95"
+                onClick={() => scrollToSection('#contact')}
+                aria-label="Contact"
+                type="button"
+              >
+                <Phone className="w-5 h-5" />
+              </button>
+
+              {/* Mobile Menu Button */}
+              <button
+                className={`relative text-white p-3 rounded-xl hover:bg-white/10 transition-all duration-300 transform hover:scale-105 active:scale-95 ${
+                  isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
+                } ${mobileOpen ? 'bg-white/20 shadow-lg border border-white/30' : ''}`}
+                onClick={() => {
+                  console.log('Mobile menu button clicked, current state:', mobileOpen);
+                  setMobileOpen(!mobileOpen);
+                }}
+                aria-label="Toggle mobile menu"
+                aria-expanded={mobileOpen}
+                type="button"
+              >
+                <div className="relative w-6 h-6 flex items-center justify-center">
+                  {mobileOpen ? (
+                    <X className="w-6 h-6 transition-transform duration-300 rotate-180" />
+                  ) : (
+                    <Menu className="w-6 h-6 transition-transform duration-300" />
+                  )}
+                </div>
+                {/* Animated indicator */}
+                <div className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-orange-500 rounded-full transition-all duration-300 ${
+                  mobileOpen ? 'scale-x-100' : 'scale-x-0'
+                }`}></div>
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Mobile Navigation */}
-      <div className={`lg:hidden fixed inset-0 bg-slate-900/98 backdrop-blur-xl z-40 transition-all duration-300 ${
-        mobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+      {/* Mobile Search Overlay */}
+      <div className={`md:hidden fixed inset-0 bg-slate-900/98 backdrop-blur-xl z-50 transition-all duration-300 ${
+        searchOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
       }`}>
+        <div className="flex flex-col h-full p-4">
+          {/* Search Header */}
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-white text-lg font-semibold">Search</h3>
+            <button
+              className="text-white p-2.5 rounded-lg hover:bg-white/10 transition-colors duration-300 transform hover:scale-105 active:scale-95"
+              onClick={() => setSearchOpen(false)}
+              type="button"
+              aria-label="Close search"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Search Content */}
+          <div className="flex-1">
+            <div className="relative mb-6">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search services, products, insights..."
+                value={searchQuery}
+                onChange={(e) => handleSearch(e.target.value)}
+                className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-600/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:bg-slate-800/70 transition-all duration-300 text-lg"
+                autoFocus
+              />
+            </div>
+
+            {/* Popular Searches */}
+            <div className="border-t border-slate-700/50 pt-6">
+              <h4 className="text-slate-400 text-sm font-medium mb-4">POPULAR SEARCHES</h4>
+              <div className="grid grid-cols-1 gap-3">
+                <button className="w-full text-left p-4 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all duration-200 flex items-center justify-between group">
+                  <span className="text-sm">Raw Materials & Packaging</span>
+                  <ChevronRightIcon className="w-4 h-4 text-slate-500 group-hover:text-orange-400" />
+                </button>
+                <button className="w-full text-left p-4 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all duration-200 flex items-center justify-between group">
+                  <span className="text-sm">Industrial Equipment</span>
+                  <ChevronRightIcon className="w-4 h-4 text-slate-500 group-hover:text-orange-400" />
+                </button>
+                <button className="w-full text-left p-4 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all duration-200 flex items-center justify-between group">
+                  <span className="text-sm">Trading Solutions</span>
+                  <ChevronRightIcon className="w-4 h-4 text-slate-500 group-hover:text-orange-400" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Navigation */}
+      <div 
+        className={`lg:hidden fixed inset-0 bg-slate-900/98 backdrop-blur-xl transition-all duration-300 ${
+          mobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+        }`}
+        style={{ zIndex: 9999 }}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            console.log('Mobile navigation overlay clicked, closing menu');
+            setMobileOpen(false);
+          }
+        }}
+      >
         <div className="flex flex-col h-full">
           {/* Mobile Header */}
           <div className="flex items-center justify-between p-4 md:p-6 border-b border-slate-700/50">
@@ -492,10 +599,12 @@ const Header: React.FC = () => {
               <img src={femsaLogo} alt="FEMSA Global Trading Limited" className="h-6 md:h-8 w-auto" />
             </div>
             <button
-              className="text-white p-2 rounded-lg hover:bg-white/10 transition-colors duration-300"
+              className="text-white p-2.5 rounded-lg hover:bg-white/10 transition-colors duration-300 transform hover:scale-105 active:scale-95"
               onClick={() => setMobileOpen(false)}
+              type="button"
+              aria-label="Close mobile menu"
             >
-              <X className="w-4 h-4 md:w-5 md:h-5" />
+              <X className="w-5 h-5" />
             </button>
           </div>
 
@@ -520,10 +629,9 @@ const Header: React.FC = () => {
                 <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Main Menu</h3>
                 <div className="space-y-2">
                   {navItems.filter(item => !item.hasDropdown).map((item, index) => (
-                    <a
+                    <button
                       key={item.label}
-                      href={item.href}
-                      className={`flex items-center justify-between p-3 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300 ${
+                      className={`w-full flex items-center justify-between p-3 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300 ${
                         (item.href === '/' && location.pathname === '/') || 
                         (item.href !== '/' && activeSection === item.href) ? 'text-orange-500 bg-white/20' : ''
                       }`}
@@ -539,7 +647,7 @@ const Header: React.FC = () => {
                         (item.href !== '/' && activeSection === item.href)) && (
                         <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
                       )}
-                    </a>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -549,10 +657,9 @@ const Header: React.FC = () => {
                 <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Trading Services</h3>
                 <div className="space-y-2">
                   {navItems.find(item => item.label === "Trading Services")?.dropdownItems?.map((dropdownItem, index) => (
-                    <a
+                    <button
                       key={dropdownItem.label}
-                      href={dropdownItem.href}
-                      className="flex items-center justify-between p-3 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300"
+                      className="w-full flex items-center justify-between p-3 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300"
                       onClick={(e) => {
                         e.preventDefault();
                         scrollToSection(dropdownItem.href);
@@ -571,7 +678,7 @@ const Header: React.FC = () => {
                           )}
                         </div>
                       </div>
-                    </a>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -581,10 +688,9 @@ const Header: React.FC = () => {
                 <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">About FEMSA</h3>
                 <div className="space-y-2">
                   {navItems.find(item => item.label === "About FEMSA")?.dropdownItems?.map((dropdownItem, index) => (
-                    <a
+                    <button
                       key={dropdownItem.label}
-                      href={dropdownItem.href}
-                      className="flex items-center justify-between p-3 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300"
+                      className="w-full flex items-center justify-between p-3 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300"
                       onClick={(e) => {
                         e.preventDefault();
                         scrollToSection(dropdownItem.href);
@@ -603,7 +709,7 @@ const Header: React.FC = () => {
                           )}
                         </div>
                       </div>
-                    </a>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -613,10 +719,9 @@ const Header: React.FC = () => {
                 <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Resources</h3>
                 <div className="space-y-2">
                   {navItems.find(item => item.label === "Resources")?.dropdownItems?.map((dropdownItem, index) => (
-                    <a
+                    <button
                       key={dropdownItem.label}
-                      href={dropdownItem.href}
-                      className="flex items-center justify-between p-3 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300"
+                      className="w-full flex items-center justify-between p-3 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300"
                       onClick={(e) => {
                         e.preventDefault();
                         scrollToSection(dropdownItem.href);
@@ -635,16 +740,15 @@ const Header: React.FC = () => {
                           )}
                         </div>
                       </div>
-                    </a>
+                    </button>
                   ))}
                 </div>
               </div>
 
               {/* Contact Link */}
               <div className="pt-6 border-t border-slate-700/50">
-                <a
-                  href="#contact"
-                  className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300"
+                <button
+                  className="w-full flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300"
                   onClick={() => {
                     scrollToSection('#contact');
                     setMobileOpen(false);
@@ -652,7 +756,7 @@ const Header: React.FC = () => {
                 >
                   <span>Contact Us</span>
                   <ChevronRightIcon className="w-4 h-4" />
-                </a>
+                </button>
               </div>
             </div>
           </nav>
