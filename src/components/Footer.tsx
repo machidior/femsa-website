@@ -347,19 +347,6 @@ const Footer: React.FC = () => {
                   </div>
                 </div>
               </div>
-              
-              {/* Office Locations */}
-              <div className="footer__offices">
-                <div className="footer__offices-label">Our Offices</div>
-                <div className="footer__office-links">
-                  {offices.map((office) => (
-                    <a key={office.city} href="#" className="footer__office-link">
-                      <span className="footer__office-flag">🇳🇬</span>
-                      <span>{office.city}</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
 

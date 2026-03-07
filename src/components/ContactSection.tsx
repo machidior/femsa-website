@@ -672,44 +672,6 @@ const ContactSection: React.FC = () => {
                 ))}
               </div>
             </div>
-
-            {/* Office Locations */}
-            <div className="bg-white rounded-2xl shadow-xl p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Our Offices</h3>
-              <div className="space-y-6">
-                {offices.map((office) => (
-                  <div key={office.id} className="group">
-                    <div className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-300 cursor-pointer">
-                      <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                        <MapPin className="w-6 h-6 text-orange-600" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="font-semibold text-gray-900">{office.city}</div>
-                        <div className="text-sm text-gray-600 mb-2">{office.address}</div>
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-2 text-sm">
-                            <Phone className="w-4 h-4 text-gray-500" />
-                            <a href={`tel:${office.phone}`} className="text-orange-600 hover:text-orange-700 transition-colors duration-300">
-                              {office.phone}
-                            </a>
-                          </div>
-                          <div className="flex items-center gap-2 text-sm">
-                            <Mail className="w-4 h-4 text-gray-500" />
-                            <a href={`mailto:${office.email}`} className="text-orange-600 hover:text-orange-700 transition-colors duration-300">
-                              {office.email}
-                            </a>
-                          </div>
-                          <div className="flex items-center gap-2 text-sm">
-                            <Clock className="w-4 h-4 text-gray-500" />
-                            <span className="text-gray-600">{office.hours}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
 
