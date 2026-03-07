@@ -85,26 +85,32 @@ const Hero: React.FC = () => {
         </div>
         
         {/* Advanced Floating Orbs with Movement */}
-        <div className="absolute top-10 left-10 w-64 h-64 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob" />
-        <div className="absolute top-32 right-16 w-80 h-80 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob" style={{ animationDelay: '2s' }} />
-        <div className="absolute bottom-20 left-1/3 w-72 h-72 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob" style={{ animationDelay: '4s' }} />
-        <div className="absolute top-1/2 right-1/4 w-60 h-60 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob" style={{ animationDelay: '6s' }} />
+        <div className="absolute top-10 left-5 w-48 h-48 md:w-64 md:h-64 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob" />
+        <div className="absolute top-32 right-5 w-56 h-56 md:w-80 md:h-80 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob" style={{ animationDelay: '2s' }} />
+        <div className="absolute bottom-20 left-1/4 w-52 h-52 md:w-72 md:h-72 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob" style={{ animationDelay: '4s' }} />
+        <div className="absolute top-1/2 right-1/4 w-40 h-40 md:w-60 md:h-60 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob" style={{ animationDelay: '6s' }} />
         
         {/* Animated Particles System */}
         <div className="absolute inset-0">
-          {[...Array(30)].map((_, i) => (
+          {[...Array(20)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-1 bg-blue-400 rounded-full"
+              className="absolute w-1 h-1 bg-blue-400 rounded-full animate-pulse"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                animation: `float ${5 + Math.random() * 10}s linear infinite`,
                 animationDelay: `${Math.random() * 5}s`,
-                opacity: 0.3 + Math.random() * 0.7
+                animationDuration: `${3 + Math.random() * 4}s`
               }}
             />
           ))}
+        </div>
+
+        {/* Geometric Shapes Animation */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-20 left-1/4 w-16 h-16 md:w-20 md:h-20 border-2 border-blue-500/30 rotate-45 animate-spin" style={{ animationDuration: '20s' }} />
+          <div className="absolute top-40 right-1/3 w-12 h-12 md:w-16 md:h-16 border-2 border-purple-500/30 rotate-45 animate-spin" style={{ animationDuration: '25s', animationDirection: 'reverse' }} />
+          <div className="absolute bottom-32 left-1/2 w-16 h-16 md:w-24 md:h-24 border-2 border-cyan-500/30 rotate-45 animate-spin" style={{ animationDuration: '30s' }} />
         </div>
 
         {/* Mouse-Following Gradient Overlay */}
@@ -116,7 +122,7 @@ const Hero: React.FC = () => {
         />
 
         {/* Wave Animation at Bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-32">
+        <div className="absolute bottom-0 left-0 right-0 h-24 md:h-32">
           <div 
             className="absolute inset-0 bg-gradient-to-t from-blue-600/20 to-transparent"
             style={{
@@ -128,7 +134,7 @@ const Hero: React.FC = () => {
         {/* Rotating Earth Silhouette - In Front */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
           <div 
-            className="w-32 h-32 md:w-40 md:h-40 opacity-40 animate-spin"
+            className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 opacity-40 animate-spin"
             style={{ 
               animationDuration: '60s',
               backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10 C30 10 10 30 C10 30 10 50 C10 70 30 90 C30 90 50 90 C70 90 70 70 C90 70 90 50 C90 30 70 10 C70 10 50 10 Z" fill="%23000000"/><path d="M50 10 C70 10 80 10 C90 10 90 30 C90 50 90 70 C70 90 50 90 C30 90 10 70 C10 70 10 50 C10 30 10 10 Z" fill="%23111111"/></svg>')`,
@@ -141,25 +147,25 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-        <div className="space-y-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 text-center">
+        <div className="space-y-8 md:space-y-12">
           {/* Animated Badge */}
           <div 
-            className={`inline-flex items-center gap-3 px-6 py-3 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-sm transition-all duration-1000 ${
+            className={`inline-flex items-center gap-2 md:gap-3 px-3 py-2 md:px-6 md:py-3 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-sm transition-all duration-1000 ${
               isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
             style={{ transitionDelay: '200ms' }}
           >
-            <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse" />
-            <span className="text-blue-300 text-sm font-medium tracking-wide">
+            <div className="w-2 h-2 md:w-3 md:h-3 bg-blue-400 rounded-full animate-pulse" />
+            <span className="text-blue-300 text-xs md:text-sm font-medium tracking-wide">
               {rotatingTexts[textIndex]}
             </span>
           </div>
 
           {/* Main Headline with Gradient Animation */}
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6">
             <h1 
-              className={`text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight transition-all duration-1200 ${
+              className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight transition-all duration-1200 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: '400ms' }}
@@ -173,7 +179,7 @@ const Hero: React.FC = () => {
             </h1>
 
             <p 
-              className={`text-lg text-blue-200 max-w-4xl mx-auto leading-relaxed transition-all duration-1000 ${
+              className={`text-sm md:text-lg text-blue-200 max-w-3xl mx-auto leading-relaxed transition-all duration-1000 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: '600ms' }}
@@ -184,7 +190,7 @@ const Hero: React.FC = () => {
 
           {/* Key Metrics with Animated Numbers */}
           <div 
-            className={`flex flex-wrap justify-center items-center gap-8 transition-all duration-1000 ${
+            className={`flex flex-wrap justify-center items-center gap-4 md:gap-8 transition-all duration-1000 ${
               isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
             style={{ transitionDelay: '800ms' }}
@@ -192,16 +198,16 @@ const Hero: React.FC = () => {
             {keyMetrics.map((metric, index) => (
               <div
                 key={index}
-                className="group relative px-6 py-4 rounded-2xl bg-gradient-to-br from-blue-600/20 to-blue-700/20 backdrop-blur-sm border border-blue-500/30 transition-all duration-500 hover:scale-105 hover:bg-blue-600/30"
+                className="group relative px-4 py-2 md:px-6 md:py-4 rounded-2xl bg-gradient-to-br from-blue-600/20 to-blue-700/20 backdrop-blur-sm border border-blue-500/30 transition-all duration-500 hover:scale-105 hover:bg-blue-600/30"
                 style={{ transitionDelay: `${1000 + index * 200}ms` }}
               >
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-blue-500/20 text-blue-400">
+                <div className="flex items-center gap-2 md:gap-3">
+                  <div className="p-1.5 md:p-2 rounded-lg bg-blue-500/20 text-blue-400">
                     {metric.icon}
                   </div>
                   <div className="text-left">
-                    <div className="text-2xl font-bold text-white">{metric.value}</div>
-                    <div className="text-sm text-blue-300">{metric.label}</div>
+                    <div className="text-lg md:text-2xl font-bold text-white">{metric.value}</div>
+                    <div className="text-xs md:text-sm text-blue-300">{metric.label}</div>
                   </div>
                 </div>
               </div>
@@ -210,22 +216,22 @@ const Hero: React.FC = () => {
 
           {/* CTA Buttons */}
           <div 
-            className={`flex flex-col sm:flex-row gap-4 justify-center items-center transition-all duration-1000 ${
+            className={`flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center transition-all duration-1000 ${
               isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
             style={{ transitionDelay: '1200ms' }}
           >
-            <button className="group relative px-10 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-500 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/30">
-              <span className="flex items-center gap-3">
-                <Zap className="w-5 h-5" />
+            <button className="group relative w-full sm:w-auto px-6 py-3 md:px-10 md:py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg md:rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-500 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/30">
+              <span className="flex items-center justify-center gap-2 md:gap-3">
+                <Zap className="w-4 h-4 md:w-5 md:h-5" />
                 Start Trading
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
               </span>
             </button>
             
-            <button className="group px-10 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-500 transform hover:scale-105 hover:shadow-xl">
-              <span className="flex items-center gap-3">
-                <Shield className="w-5 h-5" />
+            <button className="group w-full sm:w-auto px-6 py-3 md:px-10 md:py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-lg md:rounded-xl hover:bg-white/20 transition-all duration-500 transform hover:scale-105 hover:shadow-xl">
+              <span className="flex items-center justify-center gap-2 md:gap-3">
+                <Shield className="w-4 h-4 md:w-5 md:h-5" />
                 Learn More
               </span>
             </button>

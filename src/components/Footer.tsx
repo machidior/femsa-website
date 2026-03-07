@@ -221,12 +221,12 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Footer Grid */}
-          <div className="footer__grid">
+          <div className="footer__grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
             {/* Column 1 - Brand */}
             <div className={`footer__brand ${isLoaded ? 'footer__brand--loaded' : ''}`}>
               <div className="footer__logo">
                 <img 
-                  src="/resourses/femsa group (png)-10_1 1.png" 
+                  src={femsaLogo} 
                   alt="FEMSA Global Trading Limited" 
                   className="footer__logo-image"
                 />

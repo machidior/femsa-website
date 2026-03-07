@@ -288,16 +288,16 @@ const Header: React.FC = () => {
         className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-300 ${
           isScrolled 
             ? 'bg-blue-900/95 backdrop-blur-md shadow-2xl border-b border-blue-700/50' 
-            : 'bg-blue-900/80 backdrop-blur-sm'
+            : 'bg-blue-900/90 backdrop-blur-sm'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
             <div className={`flex items-center transition-all duration-700 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
               <a 
                 href="#home" 
-                className="flex items-center gap-3 group"
+                className="flex items-center gap-2 md:gap-3 group"
                 onClick={(e) => {
                   e.preventDefault();
                   scrollToSection('#home');
@@ -307,7 +307,7 @@ const Header: React.FC = () => {
                   <img 
                     src={femsaLogo} 
                     alt="FEMSA Global Trading Limited" 
-                    className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
+                    className="h-8 w-auto md:h-10 transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-500 to-orange-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
                 </div>
@@ -315,7 +315,7 @@ const Header: React.FC = () => {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-8 relative">
+            <nav className="hidden lg:flex items-center gap-6 md:gap-8 relative">
               {navItems.map((item, index) => (
                 <div 
                   key={item.label}
@@ -381,16 +381,16 @@ const Header: React.FC = () => {
             </nav>
 
             {/* Right Side Actions */}
-            <div className={`hidden lg:flex items-center gap-4 transition-all duration-700 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}>
+            <div className={`hidden md:flex lg:flex items-center gap-2 md:gap-4 transition-all duration-700 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}>
               {/* Search */}
               <div className="relative">
                 <button 
-                  className={`w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/80 hover:bg-white/20 hover:border-white/40 transition-all duration-300 group ${
+                  className={`w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/80 hover:bg-white/20 hover:border-white/40 transition-all duration-300 group ${
                     searchOpen ? 'bg-white/20 border-white/40' : ''
                   }`}
                   onClick={() => setSearchOpen(!searchOpen)}
                 >
-                  <Search className="w-4 h-4" />
+                  <Search className="w-3 h-3 md:w-4 md:h-4" />
                 </button>
                 
                 {/* Premium Search Dropdown */}
@@ -470,12 +470,12 @@ const Header: React.FC = () => {
 
             {/* Mobile Menu Button */}
             <button
-              className={`lg:hidden text-white p-3 rounded-xl hover:bg-white/10 transition-all duration-300 ${
+              className={`md:hidden lg:hidden text-white p-2 md:p-3 rounded-lg hover:bg-white/10 transition-all duration-300 ${
                 isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
               }`}
               onClick={() => setMobileOpen(!mobileOpen)}
             >
-              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileOpen ? <X className="w-5 h-5 md:w-6 md:h-6" /> : <Menu className="w-5 h-5 md:w-6 md:h-6" />}
             </button>
           </div>
         </div>
@@ -487,20 +487,20 @@ const Header: React.FC = () => {
       }`}>
         <div className="flex flex-col h-full">
           {/* Mobile Header */}
-          <div className="flex items-center justify-between p-6 border-b border-slate-700/50">
-            <div className="flex items-center gap-3">
-              <img src={femsaLogo} alt="FEMSA Global Trading Limited" className="h-8 w-auto" />
+          <div className="flex items-center justify-between p-4 md:p-6 border-b border-slate-700/50">
+            <div className="flex items-center gap-2 md:gap-3">
+              <img src={femsaLogo} alt="FEMSA Global Trading Limited" className="h-6 md:h-8 w-auto" />
             </div>
             <button
-              className="text-white p-2 rounded-xl hover:bg-white/10 transition-colors duration-300"
+              className="text-white p-2 rounded-lg hover:bg-white/10 transition-colors duration-300"
               onClick={() => setMobileOpen(false)}
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 md:w-5 md:h-5" />
             </button>
           </div>
 
           {/* Mobile Search */}
-          <div className="p-6 border-b border-slate-700/50">
+          <div className="p-4 md:p-6 border-b border-slate-700/50">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
@@ -512,12 +512,12 @@ const Header: React.FC = () => {
           </div>
 
           {/* Mobile Navigation */}
-          <nav className="flex-1 overflow-y-auto p-6">
+          <nav className="flex-1 overflow-y-auto p-4 md:p-6">
             {navItems.map((item, index) => (
-              <div key={item.label} className="mb-6" style={{ animationDelay: `${index * 100}ms` }}>
+              <div key={item.label} className="mb-4 md:mb-6" style={{ animationDelay: `${index * 100}ms` }}>
                 <a
                   href={item.href}
-                  className={`text-white/90 hover:text-white font-medium text-lg transition-colors duration-300 block mb-2 ${
+                  className={`text-white/90 hover:text-white font-medium text-base md:text-lg transition-colors duration-300 block mb-3 p-3 rounded-xl hover:bg-white/10 ${
                     (item.href === '/' && location.pathname === '/') || 
                     (item.href !== '/' && activeSection === item.href) ? 'text-orange-500' : ''
                   }`}
@@ -527,20 +527,22 @@ const Header: React.FC = () => {
                     setMobileOpen(false);
                   }}
                 >
-                  {item.label}
-                  {item.hasDropdown && (
-                    <ChevronDown className="inline-block ml-1 w-4 h-4" />
-                  )}
+                  <div className="flex items-center justify-between">
+                    <span>{item.label}</span>
+                    {item.hasDropdown && (
+                      <ChevronDown className="w-4 h-4" />
+                    )}
+                  </div>
                 </a>
 
                 {/* Mobile Dropdown */}
                 {item.hasDropdown && item.dropdownItems && (
-                  <div className="ml-4 space-y-3">
+                  <div className="ml-4 space-y-2 md:ml-6 md:space-y-3">
                     {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
                       <a
                         key={dropdownItem.label}
                         href={dropdownItem.href}
-                        className="flex items-center gap-3 text-white/70 hover:text-white text-sm transition-colors duration-300 block p-3 rounded-lg hover:bg-white/5"
+                        className="flex items-center gap-3 text-white/70 hover:text-white text-sm md:text-base transition-colors duration-300 block p-3 rounded-lg hover:bg-white/5"
                         onClick={(e) => {
                           e.preventDefault();
                           scrollToSection(dropdownItem.href);
@@ -549,12 +551,12 @@ const Header: React.FC = () => {
                         style={{ animationDelay: `${dropdownIndex * 50}ms` }}
                       >
                         {dropdownItem.icon && (
-                          <div className="w-6 h-6 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400 text-xs">
+                          <div className="w-5 h-5 md:w-6 md:h-6 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400 text-xs">
                             {dropdownItem.icon}
                           </div>
                         )}
                         <div className="flex-1">
-                          <div>{dropdownItem.label}</div>
+                          <div className="font-medium text-sm md:text-base">{dropdownItem.label}</div>
                           {dropdownItem.description && (
                             <div className="text-xs text-slate-500 mt-1">{dropdownItem.description}</div>
                           )}
@@ -565,16 +567,15 @@ const Header: React.FC = () => {
                 )}
               </div>
             ))}
-          </nav>
 
           {/* Mobile CTA */}
-          <div className="p-6 border-t border-slate-700/50">
+          <div className="p-4 md:p-6 border-t border-slate-700/50">
             <button 
               onClick={() => {
                 scrollToSection('#contact');
                 setMobileOpen(false);
               }}
-              className="w-full px-6 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300 flex items-center justify-center gap-2"
+              className="w-full px-4 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-semibold text-sm md:text-base hover:from-orange-600 hover:to-orange-700 transition-all duration-300 flex items-center justify-center gap-2"
             >
               <span>Get Started</span>
               <ArrowRight className="w-4 h-4" />
